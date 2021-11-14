@@ -15,3 +15,8 @@ Create singleplayer replays with proper order and organization by avoiding the s
     2. <b>Open</b> the chat and type `/loadscript selfplay.lua`.
     3. <b>Read</b> the chat, the script has its own guide.
 4. <b>No extra steps required</b>, play and have fun :)
+
+<br>
+
+### <b>Reporting a bug</b>
+Please, do so trough the [<b>issues</b>](https://github.com/Gann4/Toribash-SelfPlay/issues) tab found in this page.
