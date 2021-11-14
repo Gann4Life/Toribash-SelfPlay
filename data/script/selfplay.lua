@@ -27,8 +27,6 @@ function on_match_begin()
     -- currentTurn = 0
     
     select_player(player)
-
-    
 end
 
 -- Recieves the user input
