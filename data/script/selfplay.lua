@@ -6,6 +6,7 @@
 -- * Added a bit more of documentation.
 -- * Added four player support.
 -- * Tweaked few functionality for making it more flexible and dynamic.
+-- * Removed ingame GUI temorarily
 
 local script_author = "Gann4Life"
 local script_version = "2.0"
