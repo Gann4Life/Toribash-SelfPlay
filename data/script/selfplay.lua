@@ -66,8 +66,8 @@ end
 -- Remove all hooks
 local function on_unload()
     remove_hook("match_begin", "match_begin")
-    remove_hook("on_key_up", "on_key_up")
-    remove_hook("on_unload", "on_unload")
+    remove_hook("key_up", "on_key_up")
+    remove_hook("unload", "on_unload")
     remove_hook("draw2d", "on_draw_gui")
     remove_hook("end_game")
 	print_msg("Script unloaded.")
