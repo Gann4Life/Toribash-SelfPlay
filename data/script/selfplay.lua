@@ -2,17 +2,14 @@
 
 --                                  Changelog
 
--- SelfPlay v2.1
--- * Added on_unload hook, no restart required anymore to on_unload the script.
--- * Added and improved GUI:
-    -- * Name of the player's turn is displayed on screen
-    -- * Remaining turns are displayed on screen
-    -- * Game progress is displayed on screen
-    -- * Remaining rounds are displayed on screen
--- SelfPlay v2.0
--- * Added multiple player support.
--- * Removed ingame GUI.
--- * Updated core functions.
+-- Selfplay v2.2
+-- * Fixed: Script unloading as soon as it is loaded by script's game window.
+-- * Removed: Unload hook.
+-- * Added: `/stop` command for unloading the script manually.
+-- * Added: Screen messages when loading and unloading the script.
+-- TODO: I was suggested to bring methods into its own namespace, so I'll leave this as a pending task because I'm lazy.
+
+-- See all changelogs here: https://github.com/Gann4Life/Toribash-SelfPlay/releases
 
 -- ACLARATIONS (SelfPlay dictionary just in case)
 -- TURNS: Stands for every player turn.
@@ -20,8 +17,8 @@
 
 local window_width, window_height = get_window_size()
 
-local SCRIPT_AUTHOR = "Gann4Life"
-local SCRIPT_VERSION = "2.1"
+local SCRIPT_AUTHOR = "Gann4Life (mega34)"
+local SCRIPT_VERSION = "2.2"
 local player = 0
 local round_count = 0
 local turn_count = 0
@@ -32,6 +29,9 @@ local function init()
     print_msg("SelfPlay v" .. SCRIPT_VERSION .. " written by " .. SCRIPT_AUTHOR)
     print_msg("Press 'Q' to quickly switch between players.")
     print_msg("Press number '6' to prevent focus on all players at the same time.")
+    print_msg("Use `/stop` command to unload the script.")
+
+    screen_msg("[SelfPlay] Script loaded.")
 end
 
 -- Reset variables once a new match starts
@@ -66,11 +66,12 @@ end
 -- Remove all hooks
 local function on_unload()
     remove_hook("match_begin", "match_begin")
-    remove_hook("on_key_up", "on_key_up")
-    remove_hook("on_unload", "on_unload")
+    remove_hook("key_up", "on_key_up")
     remove_hook("draw2d", "on_draw_gui")
     remove_hook("end_game")
-	print_msg("Script unloaded.")
+    remove_hook("command", "run_cmd", run_command)
+
+    screen_msg("[SelfPlay] Script unloaded.")
 end
 
 -- Applies the turn, and decide if the turn should be actually applied or not based on the players turn queue
@@ -101,7 +102,7 @@ end
 -- Executed when ALL players finish their turn
 function on_finish_round()
     round_count = round_count + 1
-    UIElement:runCmd("cp Round " .. get_remaining_rounds() .. " of " .. get_total_rounds())
+    screen_msg("Round " .. get_remaining_rounds() .. " of " .. get_total_rounds())
 end
 
 -- Executed when a player finishes his turn
@@ -121,6 +122,11 @@ function print_msg(message)
     echo("[SelfPlay] " .. message)
 end
 
+-- Displays a message in the center of the screen using toribash's /cp command.
+function screen_msg(message)
+    UIElement:runCmd("cp " .. message)
+end
+
 -- Returns the value from a specific gamerule name
 function get_gamerule(gamerule)
     for key, value in pairs(get_game_rules()) do
@@ -133,9 +139,9 @@ end
 -- Returns the player name by index
 function get_player_name(index)
     for key, value in pairs(get_player_info(index)) do 
-            if key == "name" then 
-                return value 
-            end
+        if key == "name" then 
+            return value 
+        end
     end
 end
 
@@ -181,10 +187,17 @@ function get_turn_progress()
     return math.floor(turn_count / get_total_turns()*100)
 end
 
+function run_command(cmd)
+    if cmd == "stop" then
+        on_unload()
+    end
+end
+
+
 add_hook("match_begin", "match_begin", on_match_begin)
 add_hook("key_up", "on_key_up", on_key_up)
-add_hook("unload", "on_unload", on_unload)
 add_hook("draw2d", "on_draw_gui", on_draw_gui)
 add_hook("end_game", "end_game", refresh_script)
+add_hook("command", "run_cmd", run_command)
 
 init()
