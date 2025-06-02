@@ -4,6 +4,9 @@ Create singleplayer replays with proper order and organization by avoiding the s
 
 <br>
 
+[![How to use SelfPlay](https://i.ytimg.com/vi/LV_dS1IWt60/hqdefault.jpg?sqp=-oaymwEcCPYBEIoBSFXyq4qpAw4IARUAAIhCGAFwAcABBg==&rs=AOn4CLAOn1VtTcuUx2iL-GJTgiEmnceRDQ)](https://youtu.be/LV_dS1IWt60)
+
+
 ### <b>How to use/install</b>
 1. [<b>Download</b>](http://adfoc.us/70366681392808) the script.
 2. <b>Open your toribash directory.</b>
